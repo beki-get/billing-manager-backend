@@ -14,7 +14,7 @@ const webhookRoutes = require('./routes/webhookRoutes'); // stripe webhook
 console.log('webhookRoutes is:', typeof webhookRoutes);
 const reportRoutes = require('./routes/reportRoutes');
 const auditRoutes = require('./routes/auditRoutes');
-// Add this line with other routes
+
 const invoiceRoutes = require('./routes/invoiceRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 

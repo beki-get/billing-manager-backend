@@ -1,4 +1,4 @@
-//notificationservice
+//services/notificationService
 const Notification = require('../models/Notification');
 const Invoice = require('../models/Invoice');
 const Subscription = require('../models/Subscription');

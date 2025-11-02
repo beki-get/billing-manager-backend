@@ -1,3 +1,4 @@
+// controllers/businessController.js
 const Business = require('../models/Business');
 const User = require('../models/User');
 
