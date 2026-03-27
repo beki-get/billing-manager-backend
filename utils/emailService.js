@@ -1,24 +1,12 @@
-//emailservice
-console.log('emailService loaded');
-
 const nodemailer = require('nodemailer');
 
+// Example using Gmail SMTP
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // or your email service
+    service: 'gmail',
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: process.env.EMAIL_USER,      // your email
+        pass: process.env.EMAIL_PASS   // app password if Gmail
     }
 });
 
-const sendEmail = async ({ to, subject, text }) => {
-    try {
-        await transporter.sendMail({ from: process.env.EMAIL_USER, to, subject, text });
-        return true;
-    } catch (err) {
-        console.error('Email send error:', err);
-        return false;
-    }
-};
-
-module.exports = { sendEmail };
+module.exports = transporter;

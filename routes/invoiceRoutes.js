@@ -3,17 +3,13 @@ const express = require('express');
 const router = express.Router();
 const { protect } = require('../middlewares/auth');
 const Invoice = require('../models/Invoice');
+const { createInvoice, getInvoices,updateInvoiceStatus } = require('../controllers/invoiceController');
 
 // GET all invoices for a business
-router.get('/:businessId', protect, async (req, res) => {
-  try {
-    const invoices = await Invoice.find({ businessId: req.params.businessId })
-      .populate('subscriptionId', 'customerEmail')
-      .sort({ dueDate: -1 });
-    res.json(invoices);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
+router.get('/:businessId', protect,getInvoices);
+router.get('/', protect,getInvoices);
+// POST create a new invoice
+router.post('/', protect, createInvoice);
+// PATCH update invoice status
+router.patch('/:id/status', protect, updateInvoiceStatus);
 module.exports = router;

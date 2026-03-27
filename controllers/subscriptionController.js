@@ -20,7 +20,7 @@ const createSubscription = async (req, res) => {
         nextBillingDate
     });
 
-    // Auto-generate invoice for first cycle
+    //Auto-generate invoice for first cycle
     const invoiceCount = await Invoice.countDocuments({ businessId });
     const invoiceNumber = generateInvoiceNumber(businessId, invoiceCount + 1);
 
