@@ -1,23 +1,23 @@
 //server.js
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const authRoutes = require('./routes/authRoutes');
-const businessRoutes = require('./routes/businessRoutes');
-const subscriptionRoutes = require('./routes/subscriptionRoutes');
-const subscriptionManagementRoutes = require('./routes/subscriptionManagementRoutes');
-//const { generateRecurringInvoices } = require('./services/cronJobs');
-const { startNotificationCron } = require('./services/cronNotifications');
-const paymentRoutes = require('./routes/paymentRoutes'); // for creating payment intents
-const webhookRoutes = require('./routes/webhookRoutes'); // stripe webhook
+import 'dotenv/config.js';
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import authRoutes from './routes/authRoutes.js';
+import businessRoutes from './routes/businessRoutes.js';
+import subscriptionRoutes from './routes/subscriptionRoutes.js';
+import subscriptionManagementRoutes from './routes/subscriptionManagementRoutes.js';
+//import { generateRecurringInvoices } from './services/cronJobs.js';
+import { startNotificationCron } from './services/cronNotifications.js';
+import paymentRoutes from './routes/paymentRoutes.js'; // for creating payment intents
+import webhookRoutes from './routes/webhookRoutes.js'; // stripe webhook
 console.log('webhookRoutes is:', typeof webhookRoutes);
-const reportRoutes = require('./routes/reportRoutes');
-const auditRoutes = require('./routes/auditRoutes');
-const invoiceCron = require('./services/invoiceCron'); // for updating overdue invoices
+import reportRoutes from './routes/reportRoutes.js';
+import auditRoutes from './routes/auditRoutes.js';
+import invoiceCron from './services/invoiceCron.js'; // for updating overdue invoices
 
-const invoiceRoutes = require('./routes/invoiceRoutes');
-const notificationRoutes = require('./routes/notificationRoutes');
+import invoiceRoutes from './routes/invoiceRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
 
 const app = express();
 app.use(cors());
