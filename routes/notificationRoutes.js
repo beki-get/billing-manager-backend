@@ -1,7 +1,7 @@
 // routes/notificationRoutes.js
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middlewares/auth');
+const { protect } = require('../middlewares/auth').default;
 const Notification = require('../models/Notification');
 
 router.get('/:businessId', protect, async (req, res) => {

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { createPlan, getPlans, updatePlan, deletePlan } = require('../controllers/subscriptionPlanController');
-const { protect } = require('../middlewares/auth');
+const { createPlan, getPlans, updatePlan, deletePlan } = require('../controllers/subscriptionPlanController').default;
+const { protect } = require('../middlewares/auth').default;
 
 // Protect all routes
 router.post('/', protect, createPlan);

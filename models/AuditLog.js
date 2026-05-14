@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const auditLogSchema = new mongoose.Schema({
+const auditLogSchema = new Schema({
   action: { type: String, required: true }, // e.g. 'INVOICE_GENERATED', 'PAYMENT_SUCCESS'
   entityType: { type: String },             // e.g. 'Invoice', 'Subscription'
-  entityId: { type: mongoose.Schema.Types.ObjectId },
+  entityId: { type: Schema.Types.ObjectId },
   details: { type: Object },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
   timestamp: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('AuditLog', auditLogSchema);
+export default model('AuditLog', auditLogSchema);

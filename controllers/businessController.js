@@ -1,11 +1,11 @@
 // controllers/businessController.js
-const Business = require('../models/Business');
-const User = require('../models/User');
+import { create, find } from '../models/Business';
+import User from '../models/User';
 
 // Create a new business
 const createBusiness = async (req, res) => {
     const { name, currency } = req.body;
-    const business = await Business.create({
+    const business = await create({
         name,
         currency: currency || 'USD',
         owner: req.user._id
@@ -20,8 +20,8 @@ const createBusiness = async (req, res) => {
 
 // Get all businesses of logged-in user
 const getUserBusinesses = async (req, res) => {
-    const businesses = await Business.find({ owner: req.user._id });
+    const businesses = await find({ owner: req.user._id });
     res.json(businesses);
 };
 
-module.exports = { createBusiness, getUserBusinesses };
+export default { createBusiness, getUserBusinesses };

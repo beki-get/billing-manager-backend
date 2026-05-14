@@ -1,13 +1,13 @@
 //controller 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const Invoice = require('../models/Invoice');
-const Subscription = require('../models/Subscription');
-const PaymentLog = require('../models/PaymentLog');
+import { findById } from '../models/Invoice';
+import Subscription from '../models/Subscription';
+import PaymentLog from '../models/PaymentLog';
 
 const payInvoiceStripe = async (req, res) => {
     const { invoiceId } = req.body;
 
-    const invoice = await Invoice.findById(invoiceId);
+    const invoice = await findById(invoiceId);
     if(!invoice) return res.status(404).json({ message: 'Invoice not found' });
 
     try {
@@ -23,4 +23,4 @@ const payInvoiceStripe = async (req, res) => {
     }
 };
 
-module.exports = { payInvoiceStripe };
+export default { payInvoiceStripe };

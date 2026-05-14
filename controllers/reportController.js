@@ -1,7 +1,7 @@
 //controller
-const Invoice = require('../models/Invoice');
-const Subscription = require('../models/Subscription');
-const { Parser } = require('json2csv');
+import { find } from '../models/Invoice';
+import { countDocuments } from '../models/Subscription';
+import { Parser } from 'json2csv';
 
 // Calculate date range helper
 const getDateRange = (period) => {
@@ -20,7 +20,7 @@ const getRevenueSummary = async (req, res) => {
   const { period = 'monthly' } = req.query;
   const startDate = getDateRange(period);
 
-  const invoices = await Invoice.find({
+  const invoices = await find({
     status: 'paid',
     createdAt: { $gte: startDate },
   });
@@ -32,7 +32,7 @@ const getRevenueSummary = async (req, res) => {
 // Overdue invoices
 const getOverdueInvoices = async (req, res) => {
   const now = new Date();
-  const overdue = await Invoice.find({
+  const overdue = await find({
     status: { $ne: 'paid' },
     dueDate: { $lt: now },
   });
@@ -41,21 +41,21 @@ const getOverdueInvoices = async (req, res) => {
 
 // Active subscriptions
 const getActiveSubscriptions = async (req, res) => {
-  const active = await Subscription.countDocuments({ status: 'active' });
+  const active = await countDocuments({ status: 'active' });
   res.json({ active });
 };
 
 // Churn rate
 const getChurnRate = async (req, res) => {
-  const total = await Subscription.countDocuments();
-  const canceled = await Subscription.countDocuments({ status: 'canceled' });
+  const total = await countDocuments();
+  const canceled = await countDocuments({ status: 'canceled' });
   const churnRate = total > 0 ? ((canceled / total) * 100).toFixed(2) : 0;
   res.json({ churnRate: `${churnRate}%` });
 };
 
 // CSV export
 const exportInvoicesCSV = async (req, res) => {
-  const invoices = await Invoice.find();
+  const invoices = await find();
   const parser = new Parser();
   const csv = parser.parse(invoices);
 
@@ -64,7 +64,7 @@ const exportInvoicesCSV = async (req, res) => {
   res.send(csv);
 };
 
-module.exports = {
+export default {
   
   getRevenueSummary,
   getOverdueInvoices,

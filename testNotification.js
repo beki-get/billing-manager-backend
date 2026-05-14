@@ -1,6 +1,6 @@
-require('dotenv').config();         
-const mongoose = require('mongoose'); 
-const { sendReminders } = require('./services/notificationService');
+import 'dotenv/config';
+import mongoose from 'mongoose';
+import { sendReminders } from './services/notificationService.js';
 
 mongoose.connect(process.env.MONGO_URI)
   .then(async () => {

@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { getAuditLogs, clearAuditLogs } = require('../controllers/auditController');
-const { protect } = require('../middlewares/auth');
+import { getAuditLogs, clearAuditLogs } from '../controllers/auditController';
+import { protect } from '../middlewares/auth';
 
 router.get('/', protect, getAuditLogs);
 router.delete('/clear', protect, clearAuditLogs);
 
-module.exports = router;
+export default router;

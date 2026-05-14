@@ -1,4 +1,4 @@
-const AuditLog = require('../models/AuditLog');
+const AuditLog = require('../models/AuditLog').default;
 
 const logAction = async (action, entityType, entityId, details = {}, createdBy = null) => {
   try {
