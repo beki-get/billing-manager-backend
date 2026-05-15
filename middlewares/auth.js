@@ -1,5 +1,5 @@
-import { verify } from 'jsonwebtoken';
-import { findById } from '../models/User';
+import jwt from 'jsonwebtoken'
+import User from '../models/User.js';
 
 const protect = async (req, res, next) => {
     let token;
@@ -7,7 +7,7 @@ const protect = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(' ')[1];
             const decoded = verify(token, process.env.JWT_SECRET);
-            req.user = await findById(decoded.id).select('-password');
+            req.user = await User.findById(decoded.id).select('-password');
             next();
         } catch(err){
             res.status(401).json({ message: 'Not authorized, token failed' });

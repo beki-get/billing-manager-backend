@@ -1,4 +1,4 @@
-const AuditLog = require('../models/AuditLog').default;
+import AuditLog from '../models/AuditLog.js';
 
 const logAction = async (action, entityType, entityId, details = {}, createdBy = null) => {
   try {
@@ -8,4 +8,4 @@ const logAction = async (action, entityType, entityId, details = {}, createdBy =
   }
 };
 
-module.exports = { logAction };
+export default logAction;

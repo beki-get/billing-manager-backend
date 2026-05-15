@@ -1,4 +1,4 @@
-import { create, find, findById } from '../models/Invoice';
+import Invoice from '../models/Invoice.js';
 
 // Create a new invoice
 const createInvoice = async (req, res) => {
@@ -17,7 +17,7 @@ const createInvoice = async (req, res) => {
         selectedBusinessid = req.user.businesses[0]; // Default to first business if not provided
     }
     const invoiceNumber = `INV-${Date.now()}`;  
-    const invoice=await create({
+    const invoice=await Invoice.create({
         clientName,
         clientEmail,    
         amount,
@@ -43,7 +43,7 @@ const getInvoices = async (req, res) => {
         if (!req.user.businesses.includes(businessId)) {
             return res.status(403).json({ error: 'Unauthorized to view invoices for this business' });
         }
-        const invoices = await find({ businessId })
+        const invoices = await Invoice.find({ businessId })
         .sort({ dueDate: -1 });;
         res.json(invoices);
     } catch (error) {
@@ -60,7 +60,7 @@ const updateInvoiceStatus = async (req, res) => {
         if (!allowedStatuses.includes(status)) {
             return res.status(400).json({ error: 'Invalid status value' });
         }
-        const invoice=await findById(id);
+        const invoice=await Invoice.findById(id);
        
         if (!invoice) {
             return res.status(404).json({ error: 'Invoice not found' });

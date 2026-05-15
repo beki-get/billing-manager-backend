@@ -1,4 +1,4 @@
-const PaymentLog = require('../models/PaymentLog');
+import PaymentLog from '../models/PaymentLog.js';
 
 const processPayment = async ({ invoiceId, subscriptionId, amount, currency, gateway }) => {
     // Simulate payment success
@@ -18,4 +18,4 @@ const processPayment = async ({ invoiceId, subscriptionId, amount, currency, gat
     return log;
 };
 
-module.exports = { processPayment };
+export default processPayment;

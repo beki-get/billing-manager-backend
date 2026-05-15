@@ -1,19 +1,19 @@
-import { create, find, findByIdAndUpdate } from '../models/Subscription';
-import { findById } from '../models/SubscriptionPlan';
-import { countDocuments, create as _create } from '../models/Invoice';
-import { addDays } from '../utils/date';
-import { generateInvoiceNumber } from '../utils/invoiceNumber';
+import Subscription from '../models/Subscription.js';
+import SubscriptionPlan from '../models/SubscriptionPlan.js';
+import Invoice from '../models/Invoice.js';
+import { addDays } from '../utils/date.js';
+import { generateInvoiceNumber } from '../utils/invoiceNumber.js';
 
 // Create a new subscription
 const createSubscription = async (req, res) => {
     const { businessId, planId, customerEmail } = req.body;
 
-    const plan = await findById(planId);
+    const plan = await SubscriptionPlan.findById(planId);
     if(!plan) return res.status(404).json({ message: 'Plan not found' });
 
     const nextBillingDate = addDays(new Date(), plan.duration);
 
-    const subscription = await create({
+    const subscription = await Subscription.create({
         businessId,
         planId,
         customerEmail,
@@ -21,10 +21,10 @@ const createSubscription = async (req, res) => {
     });
 
     //Auto-generate invoice for first cycle
-    const invoiceCount = await countDocuments({ businessId });
+    const invoiceCount = await Invoice.countDocuments({ businessId });
     const invoiceNumber = generateInvoiceNumber(businessId, invoiceCount + 1);
 
-    const invoice = await _create({
+    const invoice = await Invoice.create({
         subscriptionId: subscription._id,
         businessId,
         invoiceNumber,
@@ -38,13 +38,13 @@ const createSubscription = async (req, res) => {
 
 // Get all subscriptions for a business
 const getSubscriptions = async (req, res) => {
-    const subscriptions = await find({ businessId: req.params.businessId })
+    const subscriptions = await Subscription.find({ businessId: req.params.businessId })
         .populate('planId');
     res.json(subscriptions);
 };
 const updateSubscriptionStatus = async (req, res) => {
   const { status } = req.body;
-  const subscription = await findByIdAndUpdate(
+  const subscription = await Subscription.findByIdAndUpdate(
     req.params.id,
     { status: req.body.status },
     { new: true }

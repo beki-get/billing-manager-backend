@@ -1,12 +1,12 @@
 // /routes/paymentRoutes.js
-const express = require('express');
-const router = express.Router();
-const { payInvoiceStripe } = require('../controllers/paymentController').default;
-const { protect } = require('../middlewares/auth').default;
+import { Router } from 'express';
+const router = Router();
+import paymentController from '../controllers/paymentController.js';
+import auth from '../middlewares/auth.js';
 
 // Create a Stripe payment intent for an invoice
-console.log('protect is:', typeof protect);
+console.log('protect is:', typeof auth.protect);
 
-router.post('/stripe', protect, payInvoiceStripe);
+router.post('/stripe', auth.protect, paymentController.payInvoiceStripe);
 
-module.exports = router;
+export default router;

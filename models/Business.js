@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const BusinessSchema = new mongoose.Schema({
+const BusinessSchema = new Schema({
     name: { type: String, required: true },
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     currency: { type: String, default: 'USD' },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Business', BusinessSchema);
+export default model('Business', BusinessSchema);

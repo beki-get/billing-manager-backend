@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const SubscriptionSchema = new mongoose.Schema({
-    businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
-    planId: { type: mongoose.Schema.Types.ObjectId, ref: 'SubscriptionPlan', required: true },
+const SubscriptionSchema = new Schema({
+    businessId: { type: Schema.Types.ObjectId, ref: 'Business', required: true },
+    planId: { type: Schema.Types.ObjectId, ref: 'SubscriptionPlan', required: true },
     customerEmail: { type: String, required: true },
     startDate: { type: Date, default: Date.now },
     nextBillingDate: { type: Date, required: true },
@@ -11,4 +11,4 @@ const SubscriptionSchema = new mongoose.Schema({
     gracePeriodEnd: { type: Date }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Subscription', SubscriptionSchema);
+export default model('Subscription', SubscriptionSchema);

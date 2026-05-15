@@ -1,12 +1,12 @@
 //services/cronNotifications.js
-const cron = require('node-cron');
-const { sendReminders } = require('./notificationService');
+import { schedule } from 'node-cron';
+import sendReminders from './notificationService.js';
 
 const startNotificationCron = () => {
-    cron.schedule('0 8 * * *', async () => { // runs daily at 8 AM
+    schedule('0 8 * * *', async () => { // runs daily at 8 AM
         console.log('Running notification cron...');
         await sendReminders();
     });
 };
 
-module.exports = { startNotificationCron };
+export default startNotificationCron;

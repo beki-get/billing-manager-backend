@@ -1,18 +1,12 @@
 //routes
-const express = require('express');
-const router = express.Router();
-const {
-  getRevenueSummary,
-  getOverdueInvoices,
-  getActiveSubscriptions,
-  getChurnRate,
-  exportInvoicesCSV,
-} = require('../controllers/reportController');
-const { protect } = require('../middlewares/auth');
-router.get('/revenue', protect, getRevenueSummary);
-router.get('/overdue', protect, getOverdueInvoices);
-router.get('/active', protect, getActiveSubscriptions);
-router.get('/churn', protect, getChurnRate);
-router.get('/export', protect, exportInvoicesCSV);
+import { Router } from 'express';
+const router = Router();
+import reportController from '../controllers/reportController.js';
+import auth from '../middlewares/auth.js';
+router.get('/revenue', auth.protect, reportController.getRevenueSummary);
+router.get('/overdue', auth.protect, reportController.getOverdueInvoices);
+router.get('/active', auth.protect, reportController.getActiveSubscriptions);
+router.get('/churn', auth.protect, reportController.getChurnRate);
+router.get('/export', auth.protect, reportController.exportInvoicesCSV);
 
-module.exports = router;
+export default router;

@@ -1,14 +1,14 @@
-const cron = require('node-cron');
-const Subscription = require('../models/Subscription');
-const Invoice = require('../models/Invoice');
-const SubscriptionPlan = require('../models/SubscriptionPlan');
-const { addDays } = require('../utils/date');
-const { generateInvoiceNumber } = require('../utils/invoiceNumber');
-const { logAction } = require('../utils/auditLogger');
+import { schedule } from 'node-cron';
+import Subscription from '../models/Subscription.js';
+import Invoice from '../models/Invoice.js';
+import SubscriptionPlan from '../models/SubscriptionPlan.js';
+import { addDays } from '../utils/date.js';
+import { generateInvoiceNumber } from '../utils/invoiceNumber.js';
+import logAction from '../utils/auditLogger.js';
 
 
 const generateRecurringInvoices = () => {
-    cron.schedule('0 0 * * *', async () => { // runs daily at midnight
+    schedule('0 0 * * *', async () => { // runs daily at midnight
         const subscriptions = await Subscription.find({ status: 'active' });
         
         for(const sub of subscriptions){
@@ -18,7 +18,7 @@ const generateRecurringInvoices = () => {
                 const invoiceCount = await Invoice.countDocuments({ businessId: sub.businessId });
                 const invoiceNumber = generateInvoiceNumber(sub.businessId, invoiceCount + 1);
 
-                await Invoice.create({
+                const newInvoice = await Invoice.create({
                     subscriptionId: sub._id,
                     businessId: sub.businessId,
                     invoiceNumber,
@@ -26,7 +26,7 @@ const generateRecurringInvoices = () => {
                     currency: 'USD',
                     dueDate: addDays(today, plan.duration)
                 });
-              const newInvoice = await logAction('INVOICE_GENERATED', 'Invoice', newInvoice._id, 
+              await logAction('INVOICE_GENERATED', 'Invoice', newInvoice._id, 
                 { amount: newInvoice.amount });
 
 
@@ -38,4 +38,4 @@ const generateRecurringInvoices = () => {
     });
 };
 
-module.exports = { generateRecurringInvoices };
+export default generateRecurringInvoices;

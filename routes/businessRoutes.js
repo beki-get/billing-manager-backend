@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const { createBusiness, getUserBusinesses } = require('../controllers/businessController').default;
-const { protect } = require('../middlewares/auth').default;
+import { Router } from 'express';
+const router = Router();
+import businessController from '../controllers/businessController.js';
+import auth from '../middlewares/auth.js';
 
-router.post('/', protect, createBusiness);
-router.get('/', protect, getUserBusinesses);
+router.post('/', auth.protect, businessController.createBusiness);
+router.get('/', auth.protect, businessController.getUserBusinesses);
 
-module.exports = router;
+export default router;

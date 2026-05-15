@@ -1,26 +1,26 @@
 // models/User.js
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import { Schema, model } from 'mongoose';
+import { genSalt, hash, compare } from 'bcryptjs';
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['admin', 'finance_staff'], default: 'admin' },
-    businesses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Business' }],
+    businesses: [{ type: Schema.Types.ObjectId, ref: 'Business' }],
 }, { timestamps: true });
 
 // Password hash before saving
 UserSchema.pre('save', async function(next) {
     if(!this.isModified('password')) return next();
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    const salt = await genSalt(10);
+    this.password = await hash(this.password, salt);
     next();
 });
 
 // Compare password
 UserSchema.methods.matchPassword = async function(enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
+    return await compare(enteredPassword, this.password);
 }
 
-module.exports = mongoose.model('User', UserSchema);
+export default model('User', UserSchema);

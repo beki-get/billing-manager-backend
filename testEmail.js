@@ -1,8 +1,8 @@
-require('dotenv').config();
-const { sendEmail } = require('./utils/emailService');
+import 'dotenv/config';
+import emailService from './utils/emailService.js';
 
 (async () => {
-  const success = await sendEmail({
+  const success = await emailService.sendMail({
     to: 'bereketgetayea@gmail.com',
     subject: 'Test Email',
     text: 'Hello from Billing Manager!'

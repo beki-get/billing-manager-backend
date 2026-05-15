@@ -1,12 +1,12 @@
-import { find, deleteMany } from '../models/AuditLog';
+import AuditLog from '../models/AuditLog.js';
 
 const getAuditLogs = async (req, res) => {
-  const logs = await find().sort({ timestamp: -1 }).limit(50);
+  const logs = await AuditLog.find().sort({ timestamp: -1 }).limit(50);
   res.json(logs);
 };
 
 const clearAuditLogs = async (req, res) => {
-  await deleteMany({});
+  await AuditLog.deleteMany({});
   res.json({ message: 'All logs cleared' });
 };
 

@@ -1,8 +1,9 @@
 //services/notificationService
-const Notification = require('../models/Notification');
-const Invoice = require('../models/Invoice');
-const Subscription = require('../models/Subscription');
-const { sendEmail } = require('../utils/emailService');
+import Notification from '../models/Notification.js';
+import Invoice from '../models/Invoice.js';
+import Subscription from '../models/Subscription.js';
+import emailService from '../utils/emailService.js';
+import logAction from '../utils/auditLogger.js';
 
 // Send invoice reminders before due date
 const sendReminders = async () => {
@@ -14,7 +15,7 @@ const sendReminders = async () => {
 
         if(diffDays <= 3 && diffDays >= 0){ // 3 days before due
             const subscription = await Subscription.findById(invoice.subscriptionId);
-            const success = await sendEmail({
+            const success = await emailService.sendMail({
                 to: subscription.customerEmail,
                 subject: `Invoice Reminder: ${invoice.invoiceNumber}`,
                 text: `Your invoice ${invoice.invoiceNumber} of $${invoice.amount} is due on ${invoice.dueDate.toDateString()}`
@@ -35,7 +36,7 @@ const sendReminders = async () => {
         // Late notice
         if(today > invoice.dueDate && invoice.status !== 'paid'){
             const subscription = await Subscription.findById(invoice.subscriptionId);
-            const success = await sendEmail({
+            const success = await emailService.sendMail({
                 to: subscription.customerEmail,
                 subject: `Late Payment Notice: ${invoice.invoiceNumber}`,
                 text: `Your invoice ${invoice.invoiceNumber} of $${invoice.amount} is overdue! Please pay immediately.`
@@ -54,4 +55,4 @@ const sendReminders = async () => {
     }
 };
 
-module.exports = { sendReminders };
+export default sendReminders;

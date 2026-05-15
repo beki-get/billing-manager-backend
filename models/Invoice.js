@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const InvoiceSchema = new mongoose.Schema({
-    subscriptionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Subscription', required: true },
+const InvoiceSchema = new Schema({
+    subscriptionId: { type: Schema.Types.ObjectId, ref: 'Subscription', required: true },
     clientName: { 
         type: String, 
         required: true 
@@ -12,7 +12,7 @@ const InvoiceSchema = new mongoose.Schema({
         required: true 
     },
 
-    businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
+    businessId: { type: Schema.Types.ObjectId, ref: 'Business', required: true },
     invoiceNumber: { type: String, required: true, unique: true },
     amount: { type: Number, required: true },
     currency: { type: String, default: 'USD' },
@@ -20,4 +20,4 @@ const InvoiceSchema = new mongoose.Schema({
     status: { type: String, enum: ['pending', 'paid', 'failed', 'overdue'], default: 'pending' }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Invoice', InvoiceSchema);
+export default model('Invoice', InvoiceSchema);

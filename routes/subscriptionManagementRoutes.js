@@ -1,11 +1,11 @@
 //route
-const express = require('express');
-const router = express.Router();
-const { createSubscription, getSubscriptions,updateSubscriptionStatus } = require('../controllers/subscriptionController').default;
-const { protect } = require('../middlewares/auth').default;
+import { Router } from 'express';
+const router = Router();
+import subscriptionController from '../controllers/subscriptionController.js';
+import auth from '../middlewares/auth.js';
 
-router.post('/', protect, createSubscription);
-router.get('/:businessId', protect, getSubscriptions);
-router.put('/:id/status', protect, updateSubscriptionStatus);
+router.post('/', auth.protect, subscriptionController.createSubscription);
+router.get('/:businessId', auth.protect, subscriptionController.getSubscriptions);
+router.put('/:id/status', auth.protect, subscriptionController.updateSubscriptionStatus);
 
-module.exports = router;
+export default router;

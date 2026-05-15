@@ -1,15 +1,15 @@
 // routes/invoiceRoutes.js
-const express = require('express');
-const router = express.Router();
-const { protect } = require('../middlewares/auth').default;
-const Invoice = require('../models/Invoice');
-const { createInvoice, getInvoices,updateInvoiceStatus } = require('../controllers/invoiceController').default;
+import { Router } from 'express';
+const router = Router();
+import auth from '../middlewares/auth.js';
+import Invoice from '../models/Invoice.js';
+import invoiceController from '../controllers/invoiceController.js';
 
 // GET all invoices for a business
-router.get('/:businessId', protect,getInvoices);
-router.get('/', protect,getInvoices);
+router.get('/:businessId', auth.protect,invoiceController.getInvoices);
+router.get('/', auth.protect,invoiceController.getInvoices);
 // POST create a new invoice
-router.post('/', protect, createInvoice);
+router.post('/', auth.protect, invoiceController.createInvoice);
 // PATCH update invoice status
-router.patch('/:id/status', protect, updateInvoiceStatus);
-module.exports = router;
+router.patch('/:id/status', auth.protect, invoiceController.updateInvoiceStatus);
+export default router;

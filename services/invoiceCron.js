@@ -1,9 +1,9 @@
-const cron = require('node-cron');
-const Invoice = require('../models/Invoice');
-const transporter = require('../utils/emailService');
+import { schedule } from 'node-cron';
+import Invoice from '../models/Invoice.js';
+import emailService from '../utils/emailService.js';
 
 // Run every day at midnight
-cron.schedule('0 0 * * *', async () => {
+schedule('0 0 * * *', async () => {
     console.log('Running invoice overdue check...');
 
     try {
@@ -33,7 +33,7 @@ cron.schedule('0 0 * * *', async () => {
                         <p>Thank you!</p>
                             `
         };
-        await transporter.sendMail(mailoptions) 
+        await emailService.sendMail(mailoptions) 
          console.log(`Reminder sent to ${invoice.clientEmail}`);
        }
     }
@@ -41,3 +41,5 @@ cron.schedule('0 0 * * *', async () => {
         console.error('cron job error:', err);
     }
 });
+
+export default true;

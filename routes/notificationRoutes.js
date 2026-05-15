@@ -1,10 +1,10 @@
 // routes/notificationRoutes.js
-const express = require('express');
-const router = express.Router();
-const { protect } = require('../middlewares/auth').default;
-const Notification = require('../models/Notification');
+import { Router } from 'express';
+const router = Router();
+import auth from '../middlewares/auth.js';
+import Notification from '../models/Notification.js';
 
-router.get('/:businessId', protect, async (req, res) => {
+router.get('/:businessId', auth.protect, async (req, res) => {
   try {
     const notifications = await Notification.find()
       .populate({
@@ -25,4 +25,4 @@ router.get('/:businessId', protect, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
