@@ -3,13 +3,18 @@ import generateToken from '../utils/jwt.js';
 
 // Register
 const registerUser = async (req, res) => {
-    const { name, email, password, role } = req.body;
-    const userExists = await User.findOne({ email });
-    if(userExists) return res.status(400).json({ message: 'User already exists' });
+     const { name, email, password } = req.body;
+try {
+      const userExists = await User.findOne({ email });
+      if(userExists) return res.status(400).json({ message: 'User already exists' });
 
-    const user = await User.create({ name, email, password, role });
-    if(user){
-        res.status(201).json({
+      const user = await User.create({ 
+        name, 
+        email, 
+        password, 
+        
+      });
+      res.status(201).json({message: 'User registered successfully',
             _id: user._id,
             name: user.name,
             email: user.email,
@@ -17,17 +22,22 @@ const registerUser = async (req, res) => {
             token: generateToken(user._id)
             
         });
-    } else {
-        res.status(400).json({ message: 'Invalid user data' });
-    }
+   
+
+ } catch (err) {
+   console.error(" INTERNAL CONTROLLER CRASH DIRECT TRACE:", err); 
+    res.status(500).json({ message: 'Server error', debug: err.message });
+ }      
+  
 };
 
 // Login
 const loginUser = async (req, res) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if(user && await user.matchPassword(password)){
-        res.json({
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if(user && await user.matchPassword(password)){
+        res.json({message:"User loged in Successfully",
             _id: user._id,
             name: user.name,
             email: user.email,
@@ -37,6 +47,9 @@ const loginUser = async (req, res) => {
     } else {
         res.status(401).json({ message: 'Invalid email or password' });
     }
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }   
 };
 
 export default { registerUser, loginUser };
