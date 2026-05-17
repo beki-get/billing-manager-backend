@@ -1,4 +1,5 @@
 import Invoice from '../models/Invoice.js';
+import invoiceService from '../services/invoiceService.js';
 
 // Create a new invoice
 const createInvoice = async (req, res) => {
@@ -7,23 +8,23 @@ const createInvoice = async (req, res) => {
     if (!clientName || !clientEmail || !amount || !dueDate ) {
         return res.status(400).json({ error: 'All fields are required' });
     }
-    let selectedBusinessid;
-    if (businessId) {
-        if (!req.user.businesses.includes(businessId)) {
-            return res.status(403).json({ error: 'Unauthorized to create invoice for this business' });
+    let selectedBusinessid = businessId;
+        if (businessId) {
+            if (!req.user.businesses.includes(businessId)) {
+                return res.status(403).json({ error: 'Unauthorized to create invoice for this business' });
+            }
+        } else {
+            selectedBusinessid = req.user.businesses[0]; 
         }
-        selectedBusinessid = businessId;
-    } else {
-        selectedBusinessid = req.user.businesses[0]; // Default to first business if not provided
-    }
     const invoiceNumber = `INV-${Date.now()}`;  
-    const invoice=await Invoice.create({
+    const invoice=await invoiceService.createInvoice({
+        subscriptionId: null,
+        businessId: selectedBusinessid,
         clientName,
         clientEmail,    
         amount,
         dueDate,
-        businessId: selectedBusinessid, 
-        invoiceNumber
+       customInvoiceNumber
     });
     res.status(201).json({message: 'Invoice created successfully', invoice});
 

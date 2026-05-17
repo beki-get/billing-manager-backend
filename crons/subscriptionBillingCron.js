@@ -5,28 +5,25 @@ import SubscriptionPlan from '../models/SubscriptionPlan.js';
 import { addDays } from '../utils/date.js';
 import { generateInvoiceNumber } from '../utils/invoiceNumber.js';
 import logAction from '../utils/auditLogger.js';
-
-
+import invoiceService from '../services/invoiceService.js';
 const generateRecurringInvoices = () => {
-    schedule('0 0 * * *', async () => { // runs daily at midnight
+    schedule('0 0 * * *', async () => { 
         const subscriptions = await Subscription.find({ status: 'active' });
-        
+          const today = new Date();
         for(const sub of subscriptions){
-            const today = new Date();
+           
             if(sub.nextBillingDate <= today){
                 const plan = await SubscriptionPlan.findById(sub.planId);
-                const invoiceCount = await Invoice.countDocuments({ businessId: sub.businessId });
-                const invoiceNumber = generateInvoiceNumber(sub.businessId, invoiceCount + 1);
-
-                const newInvoice = await Invoice.create({
+                
+                const newInvoice = await invoiceService.createInvoice({
                     subscriptionId: sub._id,
                     businessId: sub.businessId,
                     invoiceNumber,
                     amount: plan.price,
                     currency: 'USD',
                     dueDate: addDays(today, plan.duration),
-                    clientName: subscription.clientName,   
-                    clientEmail: subscription.clientEmail
+                    clientName: sub.clientName,   
+                    clientEmail: sub.clientEmail
                 });
               await logAction('INVOICE_GENERATED', 'Invoice', newInvoice._id, 
                 { amount: newInvoice.amount });

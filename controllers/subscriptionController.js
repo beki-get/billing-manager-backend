@@ -3,6 +3,7 @@ import SubscriptionPlan from '../models/SubscriptionPlan.js';
 import Invoice from '../models/Invoice.js';
 import { addDays } from '../utils/date.js';
 import { generateInvoiceNumber } from '../utils/invoiceNumber.js';
+import invoiceService from '../services/invoiceService.js';
 
 // Create a new subscription
 const createSubscription = async (req, res) => {
@@ -16,24 +17,20 @@ const createSubscription = async (req, res) => {
     const subscription = await Subscription.create({
         businessId,
         planId,
-        clientName,
-        clientEmail,
+        customerEmail,
+        customerName,
         nextBillingDate
     });
 
-    //Auto-generate invoice for first cycle
-    const invoiceCount = await Invoice.countDocuments({ businessId });
-    const invoiceNumber = generateInvoiceNumber(businessId, invoiceCount + 1);
-
-    const invoice = await Invoice.create({
+    const invoice = await invoiceService.createInvoice({
         subscriptionId: subscription._id,
         businessId,
         invoiceNumber,
         amount: plan.price,
         currency: 'USD',
         dueDate: nextBillingDate,
-        clientName: subscription.clientName, 
-        clientEmail: subscription.clientEmail
+        clientName: subscription.customerName, 
+        clientEmail: subscription.customerEmail
     });
 
     res.status(201).json({ subscription, invoice });
