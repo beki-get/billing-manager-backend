@@ -24,7 +24,9 @@ const generateRecurringInvoices = () => {
                     invoiceNumber,
                     amount: plan.price,
                     currency: 'USD',
-                    dueDate: addDays(today, plan.duration)
+                    dueDate: addDays(today, plan.duration),
+                    clientName: subscription.clientName,   
+                    clientEmail: subscription.clientEmail
                 });
               await logAction('INVOICE_GENERATED', 'Invoice', newInvoice._id, 
                 { amount: newInvoice.amount });

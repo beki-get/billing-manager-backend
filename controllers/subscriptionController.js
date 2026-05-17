@@ -6,7 +6,7 @@ import { generateInvoiceNumber } from '../utils/invoiceNumber.js';
 
 // Create a new subscription
 const createSubscription = async (req, res) => {
-    const { businessId, planId, customerEmail } = req.body;
+    const { businessId, planId, customerEmail,customerName } = req.body;
 
     const plan = await SubscriptionPlan.findById(planId);
     if(!plan) return res.status(404).json({ message: 'Plan not found' });
@@ -16,7 +16,8 @@ const createSubscription = async (req, res) => {
     const subscription = await Subscription.create({
         businessId,
         planId,
-        customerEmail,
+        clientName,
+        clientEmail,
         nextBillingDate
     });
 
@@ -30,7 +31,9 @@ const createSubscription = async (req, res) => {
         invoiceNumber,
         amount: plan.price,
         currency: 'USD',
-        dueDate: nextBillingDate
+        dueDate: nextBillingDate,
+        clientName: subscription.clientName, 
+        clientEmail: subscription.clientEmail
     });
 
     res.status(201).json({ subscription, invoice });

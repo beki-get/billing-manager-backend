@@ -3,6 +3,7 @@ import { Schema, model } from 'mongoose';
 const SubscriptionSchema = new Schema({
     businessId: { type: Schema.Types.ObjectId, ref: 'Business', required: true },
     planId: { type: Schema.Types.ObjectId, ref: 'SubscriptionPlan', required: true },
+    customerName: { type: String, required: true },
     customerEmail: { type: String, required: true },
     startDate: { type: Date, default: Date.now },
     nextBillingDate: { type: Date, required: true },

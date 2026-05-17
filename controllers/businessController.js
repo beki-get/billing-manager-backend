@@ -1,4 +1,3 @@
-// controllers/businessController.js
 import Business from '../models/Business.js';
 import User from '../models/User.js';
 
