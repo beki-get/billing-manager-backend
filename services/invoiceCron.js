@@ -15,6 +15,13 @@ schedule('0 0 * * *', async () => {
     } catch (err) {
         console.error('cron job error:', err);
     }
+    
+    try {
+        console.log('Checking for upcoming invoice reminders...');
+        await notificationService.sendUpcomingReminders(); 
+    } catch (err) {
+        console.error('Upcoming reminder cron job error:', err);
+    }
 });
 
 export default true;
