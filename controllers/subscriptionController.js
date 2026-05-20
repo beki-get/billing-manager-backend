@@ -25,7 +25,7 @@ const createSubscription = async (req, res) => {
     const invoice = await invoiceService.createInvoice({
         subscriptionId: subscription._id,
         businessId,
-        invoiceNumber,
+        invoiceNumber: generateInvoiceNumber(),
         amount: plan.price,
         currency: 'USD',
         dueDate: nextBillingDate,
