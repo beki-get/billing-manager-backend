@@ -6,4 +6,3 @@ export const generateInvoiceNumber = (businessId, seq) => {
     return `INV-${y}${m}${d}-${businessId}-${seq}`;
 };
 
-

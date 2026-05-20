@@ -4,14 +4,13 @@ import Invoice from "../models/Invoice.js";
 
 const createInvoice = async ({
     subscriptionId, 
-    businessId, 
-    amount, 
+    businessId,
+    amount,
     dueDate, 
-    clientName, 
+    clientName,
     clientEmail, 
     customInvoiceNumber = null
-
-   })=>{
+})=>{
      let invoiceNumber=customInvoiceNumber 
      if(!invoiceNumber){
         const invoiceCount = await Invoice.countDocuments({ businessId });
