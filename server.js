@@ -9,14 +9,13 @@ import authRoutes from './routes/authRoutes.js';
 import businessRoutes from './routes/businessRoutes.js';
 import subscriptionRoutes from './routes/subscriptionRoutes.js';
 import subscriptionManagementRoutes from './routes/subscriptionManagementRoutes.js';
-//import generateRecurringInvoices from './services/cronJobs.js';
-import startNotificationCron from './services/cronNotifications.js';
-import paymentRoutes from './routes/paymentRoutes.js'; // for creating payment intents
-import webhookRoutes from './routes/webhookRoutes.js'; // stripe webhook
+import paymentRoutes from './routes/paymentRoutes.js'; 
+import webhookRoutes from './routes/webhookRoutes.js'; 
 console.log('webhookRoutes is:', typeof webhookRoutes);
 import reportRoutes from './routes/reportRoutes.js';
 import auditRoutes from './routes/auditRoutes.js';
-import './services/invoiceCron.js'; // for updating overdue invoices
+import './crons/notificationCron.js'; 
+import generateInvoice from './crons/invoiceCron.js';
 
 import invoiceRoutes from './routes/invoiceRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
@@ -26,10 +25,8 @@ app.use(cors());
 app.use('/webhooks', webhookRoutes);
 
 app.use(express.json());
-//generateRecurringInvoices();
-startNotificationCron();
 
-
+generateInvoice();
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
