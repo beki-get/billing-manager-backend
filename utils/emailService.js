@@ -1,12 +1,27 @@
 import nodemailer from 'nodemailer';
 
-//  using Gmail SMTP
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,      // your email
-        pass: process.env.EMAIL_PASS   // app password
-    }
+const transporter=nodemailer.createTransport({
+    host:"process.env.EMAIL_HOST",
+    port:'465',
+    secure:'true',
+    auth:{
+       user:process.env.EMAIL_USER,
+       pass:process.env.EMAIL_PASS
+    },
 });
 
-export default transporter;
+const sendMail= async ({to,subject,text,html})=>{
+    try{
+        return await transporter.sendMail({
+            from:process.env.EMAIL_USER,
+            to,
+            subject,
+            text,
+            html
+        });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        throw error;
+    }
+}
+export default { sendMail };
