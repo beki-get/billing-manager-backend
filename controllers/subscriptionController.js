@@ -1,5 +1,5 @@
 import Subscription from '../models/Subscription.js';
-import SubscriptionPlan from '../models/SubscriptionPlan.js';
+import SubscriptionPlan from '../models/Plan.js';
 import Invoice from '../models/Invoice.js';
 import { addDays } from '../utils/date.js';
 import { generateInvoiceNumber } from '../utils/invoiceNumber.js';

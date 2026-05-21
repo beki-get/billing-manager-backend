@@ -1,12 +1,11 @@
+//route
 import { Router } from 'express';
 const router = Router();
-import subscriptionPlanController from '../controllers/subscriptionPlanController.js';
+import subscriptionController from '../controllers/subscriptionController.js';
 import auth from '../middlewares/auth.js';
 
-// Protect all routes
-router.post('/', auth.protect, subscriptionPlanController.createPlan);
-router.get('/:businessId', auth.protect, subscriptionPlanController.getPlans);
-router.put('/:id', auth.protect, subscriptionPlanController.updatePlan);
-router.delete('/:id', auth.protect, subscriptionPlanController.deletePlan);
+router.post('/', auth.protect, subscriptionController.createSubscription);
+router.get('/:businessId', auth.protect, subscriptionController.getSubscriptions);
+router.put('/:id/status', auth.protect, subscriptionController.updateSubscriptionStatus);
 
 export default router;
