@@ -1,4 +1,3 @@
-// models/User.js
 import { Schema, model } from 'mongoose';
 import { genSalt, hash, compare } from 'bcryptjs';
 

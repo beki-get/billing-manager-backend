@@ -29,8 +29,8 @@ const createSubscription = async (req, res) => {
         amount: plan.price,
         currency: 'USD',
         dueDate: nextBillingDate,
-        clientName: subscription.customerName, 
-        clientEmail: subscription.customerEmail
+        customerName: subscription.customerName,
+        customerEmail: subscription.customerEmail
     });
 
     res.status(201).json({ subscription, invoice });

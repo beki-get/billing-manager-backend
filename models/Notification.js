@@ -1,4 +1,3 @@
-//models/Notification.js
 import { Schema, model } from 'mongoose';
 
 const NotificationSchema = new Schema({
