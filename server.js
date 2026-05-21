@@ -7,8 +7,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import businessRoutes from './routes/businessRoutes.js';
+import planRoutes from './routes/planRoutes.js';
 import subscriptionRoutes from './routes/subscriptionRoutes.js';
-import subscriptionManagementRoutes from './routes/subscriptionManagementRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js'; 
 import webhookRoutes from './routes/webhookRoutes.js'; 
 console.log('webhookRoutes is:', typeof webhookRoutes);
@@ -42,8 +42,8 @@ app.get('/', (req, res) => {
 //routes
 app.use('/api/auth', authRoutes);
 app.use('/api/business', businessRoutes);
-app.use('/api/plans',subscriptionRoutes);
-app.use('/api/subscriptions', subscriptionManagementRoutes);
+app.use('/api/plans', planRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/audit', auditRoutes);
