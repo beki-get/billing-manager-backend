@@ -4,8 +4,8 @@ import invoiceService from '../services/invoiceService.js';
 // Create a new invoice
 const createInvoice = async (req, res) => {
     try {
-    const { clientName, clientEmail, amount, dueDate,businessId } = req.body;
-    if (!clientName || !clientEmail || !amount || !dueDate ) {
+    const { customerName, customerEmail, amount, dueDate,businessId } = req.body;
+    if (!customerName || !customerEmail || !amount || !dueDate ) {
         return res.status(400).json({ error: 'All fields are required' });
     }
     let selectedBusinessid = businessId;
@@ -20,11 +20,11 @@ const createInvoice = async (req, res) => {
     const invoice=await invoiceService.createInvoice({
         subscriptionId: null,
         businessId: selectedBusinessid,
-        clientName,
-        clientEmail,    
+        customerName,
+        customerEmail,    
         amount,
         dueDate,
-       customInvoiceNumber
+       invoiceNumber
     });
     res.status(201).json({message: 'Invoice created successfully', invoice});
 
@@ -37,7 +37,7 @@ const createInvoice = async (req, res) => {
 // Get all invoices for a business  
 const getInvoices = async (req, res) => {
     try {
-        const { businessId } = req.query;   
+        const businessId = req.user.businessId 
         if (!businessId) {
             return res.status(400).json({ error: 'Business ID is required' });
         }

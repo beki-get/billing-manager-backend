@@ -7,8 +7,8 @@ const createInvoice = async ({
     businessId,
     amount,
     dueDate, 
-    clientName,
-    clientEmail, 
+    customerName,
+    customerEmail, 
     customInvoiceNumber = null
 })=>{
      let invoiceNumber=customInvoiceNumber 
@@ -24,8 +24,8 @@ const createInvoice = async ({
         amount,
         currency: 'USD',
         dueDate,
-        clientName,
-        clientEmail
+        customerName,
+        customerEmail
 
      });
 }
