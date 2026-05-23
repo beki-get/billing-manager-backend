@@ -8,9 +8,10 @@ import invoiceController from '../controllers/invoiceController.js';
 
 router.get('/:businessId', auth.protect,invoiceController.getInvoices);
 // GET all invoices for a business
-router.get('/', auth.protect,invoiceController.getInvoices);
+//router.get('/:', auth.protect,invoiceController.getInvoices);
 //  create a new invoice for manual creation 
 router.post('/', auth.protect, invoiceController.createInvoice);
 // PATCH update invoice status
-router.patch('/:id/status', auth.protect, invoiceController.updateInvoiceStatus);
+router.patch('/:id/', auth.protect, invoiceController.updateInvoiceStatus);
+
 export default router;

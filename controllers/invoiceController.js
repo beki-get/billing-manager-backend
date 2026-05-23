@@ -37,15 +37,14 @@ const createInvoice = async (req, res) => {
 // Get all invoices for a business  
 const getInvoices = async (req, res) => {
     try {
-        const businessId = req.user.businessId 
+        const { businessId } = req.params;
         if (!businessId) {
             return res.status(400).json({ error: 'Business ID is required' });
         }
         if (!req.user.businesses.includes(businessId)) {
             return res.status(403).json({ error: 'Unauthorized to view invoices for this business' });
         }
-        const invoices = await Invoice.find({ businessId })
-        .sort({ dueDate: -1 });;
+        const invoices = await invoiceService.getInvoices(businessId)
         res.json(invoices);
     } catch (error) {
         console.error('Error fetching invoices:', error);
@@ -61,22 +60,14 @@ const updateInvoiceStatus = async (req, res) => {
         if (!allowedStatuses.includes(status)) {
             return res.status(400).json({ error: 'Invalid status value' });
         }
-        const invoice=await Invoice.findById(id);
-       
-        if (!invoice) {
-            return res.status(404).json({ error: 'Invoice not found' });
-        }
+        const invoice=await invoiceService.updateInvoiceStatus(id,status);
         if (!req.user.businesses.includes(invoice.businessId.toString())) {
             return res.status(403).json({ error: 'Unauthorized to update this invoice' });
         }
-        invoice.status=status;
-        await invoice.save();
+      
         res.json({ message: 'Invoice status updated successfully', invoice });  
  
-
-
-
-    }  catch (error) {
+}  catch (error) {
         console.error('Error updating invoice status:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
