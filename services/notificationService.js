@@ -21,12 +21,21 @@ const sendOverdueReminder = async (invoice) => {
 
     await emailService.sendMail(mailoptions);
     console.log(`Overdue alert sent to ${invoice.customerEmail}`);
+
+    await Notification.create({
+        businessId: invoice.businessId,
+        subscriptionId: invoice.subscriptionId,
+        invoiceId: invoice._id,
+        type: 'late_notice',
+        channel: 'email',
+        status: 'sent'
+    });
 };
 
 const sendUpcomingReminders = async () => {
     const today = new Date();
     const invoices = await Invoice.find({ status: 'pending' });
-
+   
     for (const invoice of invoices) {
         const diffDays = Math.ceil((invoice.dueDate - today) / (1000 * 60 * 60 * 24));
         if (diffDays <= 3 && diffDays >= 0) {
@@ -37,6 +46,7 @@ const sendUpcomingReminders = async () => {
                 text: `Your invoice ${invoice.invoiceNumber} of $${invoice.amount} is due on ${invoice.dueDate.toDateString()}`
             });
             await Notification.create({
+                businessId: invoice.businessId,
                 subscriptionId: subscription?._id || null,
                 invoiceId: invoice._id,
                 type: 'reminder',
@@ -51,4 +61,14 @@ const sendUpcomingReminders = async () => {
         }
     }
 };
-export default { sendOverdueReminder, sendUpcomingReminders };
+
+const getNotifications =async(businessId)=>{
+ const notifications= await Notification.find({businessId})
+  .populate('subscriptionId','customerEmail')
+   .populate('invoiceId','invoiceNumber')
+    .sort({ sentAt: -1 })
+    .limit(20);
+    return notifications;
+
+}
+export default { sendOverdueReminder, sendUpcomingReminders, getNotifications };
