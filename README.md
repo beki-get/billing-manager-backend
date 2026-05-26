@@ -28,7 +28,7 @@ A JavaScript/Node.js backend built with industry-standard practices:
 🚀 Key System Capabilities
 
 - Multi-Tenant Workspace Architecture: Built to support users who own and manage multiple businesses seamlessly under a single account.
-- Automated Invoice Lifecycle: Uses a background Cron Job to automatically transition unpaid invoices from pending to overdue based on due dates.
+- Automated Invoice Lifecycle: Uses a background Cron Job to automatically transition unpaid invoices from pending to overdue based on  due dates.
 - Event-Driven Payment Tracking: Integrates Webhooks to instantly handle background payment successes (paid) or transaction failures (failed).
 - Clean Layered Architecture: Implements a strict separation of concerns with dedicated Express Controllers for HTTP routing/authorization and Service Layers for database-level business logic.
 
@@ -49,18 +49,14 @@ cd billing-manager-backend
 npm install
 
 # Set up environment variables
-cp .env.example .env
+cp example .env
 # Edit .env with your configuration
 
 # Start the server
 npm start
 ```
-
 ### Development Mode
-
-```bash
 npm run dev
-```
 
 ## 📦 What's Included
 
@@ -71,8 +67,7 @@ npm run dev
 - **Subscription Services** - Handle recurring billing and subscriptions
 - **Reporting** - Generate billing reports and analytics
 - **Authentication & Security** - Secure API endpoints and data protection
-
-
+- 
 ## 🏗️ Project Structure
 
 ```
@@ -81,14 +76,14 @@ billing-manager-backend/
 │   ├── controllers/        # Request handlers
 │   ├── models/            # Data models
 │   ├── routes/            # API routes
-│   ├── middleware/        # Custom middleware
+│   ├── middlewares/        # Custom middleware
 │   ├── services/          # Business logic
 │   └── utils/             # Helper functions
 ├── tests/                 # Test files
-├── config/                # Configuration files
-├── .env.example           # Environment variables template
+├── validators/            # Input validation files
+├── .env                   # Environment variables template
 ├── package.json           # Dependencies and scripts
-└── README.md             # This file
+└── README.md              # Description for project
 ```
 
 ## 🔧 Configuration
@@ -97,7 +92,6 @@ Create a `.env` file in the project root with the following variables:
 
 ```env
 # Server Configuration
-PORT=3000
 NODE_ENV=development
 
 # Database Configuration
@@ -141,25 +135,12 @@ PAYMENT_GATEWAY_SECRET=your_payment_gateway_secret
 - `PUT /api/subscriptions/:id` - Update subscription
 - `DELETE /api/subscriptions/:id` - Cancel subscription
 
-## 🧪 Testing
-
-```bash
-# Run all tests
-npm test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run tests in watch mode
-npm run test:watch
 ```
 ## 📝 Available Scripts
 
 ```bash
 npm start          # Start the production server
 npm run dev        # Start the development server with hot reload
-npm run lint       # Check code quality with ESLint
-npm run build      # Build the application
 ```
 ## 🔒 Security Features
 
@@ -170,8 +151,6 @@ npm run build      # Build the application
 - ✅ CORS configuration
 - ✅ Rate limiting on API endpoints
 - ✅ Environment-based secrets management
-
----
 
 ## 📊 Database
 
@@ -185,9 +164,6 @@ The application uses a database to store billing information. Currently configur
 - **Businesses** - Bussiness records for owners/users
 - **Payments** - Payment transaction history
 - **Subscriptions** - Recurring billing plans
-
-
----
 
 ## 🚀 Deployment
 
@@ -215,18 +191,7 @@ NODE_ENV=staging npm start
 - Follow JavaScript best practices
 - Write unit tests for new features
 - Update documentation for API changes
-- Ensure all tests pass before submitting Pull Request
-
-## 🗺️ Roadmap
-
-- [ ] Advanced analytics and reporting dashboard
-- [ ] Multi-currency support
-- [ ] Webhook integrations
-- [ ] Mobile app API enhancements
-- [ ] Automated billing retry logic
-- [ ] Compliance certifications (PCI, SOC2)
-- [ ] GraphQL API support
-
+  
 ## 📚 Additional Resources
 
 - [Node.js Documentation](https://nodejs.org/docs/)
@@ -234,5 +199,3 @@ NODE_ENV=staging npm start
 - [Best Practices for REST APIs](https://restfulapi.net/)
 - [Security Best Practices](https://owasp.org/www-project-secure-coding-practices/)
 
-**Last Updated:** May 2026  
-**Version:** 1.0.0
