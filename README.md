@@ -26,6 +26,15 @@ A JavaScript/Node.js backend built with industry-standard practices:
 - Suitable for microservices or monolithic deployment
 
 ---
+🚀 Key System Capabilities
+
+    Multi-Tenant Workspace Architecture: Built to support users who own and manage multiple businesses seamlessly under a single account.
+
+    Automated Invoice Lifecycle: Uses a background Cron Job to automatically transition unpaid invoices from pending to overdue based on due dates.
+
+    Event-Driven Payment Tracking: Integrates Webhooks to instantly handle background payment successes (paid) or transaction failures (failed).
+
+    Clean Layered Architecture: Implements a strict separation of concerns with dedicated Express Controllers for HTTP routing/authorization and Service Layers for database-level business logic.
 
 ## 🚀 Quick Start
 
