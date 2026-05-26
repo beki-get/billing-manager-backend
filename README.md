@@ -25,16 +25,12 @@ A JavaScript/Node.js backend built with industry-standard practices:
 - Scalable application design
 - Suitable for microservices or monolithic deployment
 
----
 🚀 Key System Capabilities
 
-    Multi-Tenant Workspace Architecture: Built to support users who own and manage multiple businesses seamlessly under a single account.
-
-    Automated Invoice Lifecycle: Uses a background Cron Job to automatically transition unpaid invoices from pending to overdue based on due dates.
-
-    Event-Driven Payment Tracking: Integrates Webhooks to instantly handle background payment successes (paid) or transaction failures (failed).
-
-    Clean Layered Architecture: Implements a strict separation of concerns with dedicated Express Controllers for HTTP routing/authorization and Service Layers for database-level business logic.
+- Multi-Tenant Workspace Architecture: Built to support users who own and manage multiple businesses seamlessly under a single account.
+- Automated Invoice Lifecycle: Uses a background Cron Job to automatically transition unpaid invoices from pending to overdue based on due dates.
+- Event-Driven Payment Tracking: Integrates Webhooks to instantly handle background payment successes (paid) or transaction failures (failed).
+- Clean Layered Architecture: Implements a strict separation of concerns with dedicated Express Controllers for HTTP routing/authorization and Service Layers for database-level business logic.
 
 ## 🚀 Quick Start
 
@@ -66,19 +62,16 @@ npm start
 npm run dev
 ```
 
----
-
 ## 📦 What's Included
 
 ### Core Features
 - **Payment Processing** - Handle transactions and payment methods
 - **Invoice Management** - Create, track, and manage invoices
-- **Customer Management** - Manage customer profiles and accounts
+- **Business Management** - Manage Business owner profiles and accounts
 - **Subscription Services** - Handle recurring billing and subscriptions
 - **Reporting** - Generate billing reports and analytics
 - **Authentication & Security** - Secure API endpoints and data protection
 
----
 
 ## 🏗️ Project Structure
 
@@ -98,8 +91,6 @@ billing-manager-backend/
 └── README.md             # This file
 ```
 
----
-
 ## 🔧 Configuration
 
 Create a `.env` file in the project root with the following variables:
@@ -110,7 +101,7 @@ PORT=3000
 NODE_ENV=development
 
 # Database Configuration
-DATABASE_URL=mongodb://localhost:27017/billing-manager
+DATABASE_URL=mongodb://localhost:27017/databse-name
 DB_HOST=localhost
 DB_PORT=27017
 
@@ -122,30 +113,20 @@ API_KEY=your_api_key
 PAYMENT_GATEWAY_KEY=your_payment_gateway_key
 PAYMENT_GATEWAY_SECRET=your_payment_gateway_secret
 
-# Logging
-LOG_LEVEL=info
-```
-
----
-
 ## 🔌 API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - Register a new user
 - `POST /api/auth/login` - User login
-- `POST /api/auth/refresh` - Refresh authentication token
 
-### Customers
-- `GET /api/customers` - List all customers
-- `POST /api/customers` - Create new customer
-- `GET /api/customers/:id` - Get customer details
-- `PUT /api/customers/:id` - Update customer
-- `DELETE /api/customers/:id` - Delete customer
+### Businesses
+- `POST /api/business/ - Create a new business for user  
+- `GET /api/business` - Get businesses for user
 
 ### Invoices
 - `GET /api/invoices` - List invoices
-- `POST /api/invoices` - Create invoice
-- `GET /api/invoices/:id` - Get invoice details
+- `POST /api/invoices` - Create invoice for manual creation 
+- `GET /api/invoices/:businessId` - GET all invoices for a business
 - `PUT /api/invoices/:id` - Update invoice
 - `DELETE /api/invoices/:id` - Delete invoice
 
@@ -155,13 +136,10 @@ LOG_LEVEL=info
 - `GET /api/payments/:id` - Get payment details
 
 ### Subscriptions
-- `GET /api/subscriptions` - List subscriptions
+- `GET /api/subscriptions/:businessId'` - List subscriptions
 - `POST /api/subscriptions` - Create subscription
-- `GET /api/subscriptions/:id` - Get subscription details
 - `PUT /api/subscriptions/:id` - Update subscription
 - `DELETE /api/subscriptions/:id` - Cancel subscription
-
----
 
 ## 🧪 Testing
 
@@ -175,22 +153,14 @@ npm run test:coverage
 # Run tests in watch mode
 npm run test:watch
 ```
-
----
-
 ## 📝 Available Scripts
 
 ```bash
 npm start          # Start the production server
 npm run dev        # Start the development server with hot reload
-npm test           # Run the test suite
 npm run lint       # Check code quality with ESLint
 npm run build      # Build the application
-npm run migrate    # Run database migrations
 ```
-
----
-
 ## 🔒 Security Features
 
 - ✅ JWT-based authentication
@@ -210,11 +180,12 @@ The application uses a database to store billing information. Currently configur
 - Can be adapted for PostgreSQL, MySQL, etc.
 
 ### Database Schema Highlights
-- **Customers** - Customer account information
+- **Users** -  Customers account information
 - **Invoices** - Invoice records and details
+- **Businesses** - Bussiness records for owners/users
 - **Payments** - Payment transaction history
 - **Subscriptions** - Recurring billing plans
-- **Transactions** - All financial transactions
+
 
 ---
 
@@ -240,39 +211,11 @@ NODE_ENV=production npm start
 NODE_ENV=staging npm start
 ```
 
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help:
-
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/AmazingFeature`)
-3. **Commit your changes** (`git commit -m 'Add some AmazingFeature'`)
-4. **Push to the branch** (`git push origin feature/AmazingFeature`)
-5. **Open a Pull Request**
-
 ### Code Standards
 - Follow JavaScript best practices
 - Write unit tests for new features
 - Update documentation for API changes
-- Ensure all tests pass before submitting PR
-
----
-
-## 📄 License
-
-This project is open source and available under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 📞 Support & Contact
-
-- **Issues** - Report bugs on the [GitHub Issues](https://github.com/beki-get/billing-manager-backend/issues) page
-- **Discussions** - Join the conversation on [GitHub Discussions](https://github.com/beki-get/billing-manager-backend/discussions)
-- **Author** - [@beki-get](https://github.com/beki-get)
-
----
+- Ensure all tests pass before submitting Pull Request
 
 ## 🗺️ Roadmap
 
@@ -284,22 +227,12 @@ This project is open source and available under the **MIT License** - see the [L
 - [ ] Compliance certifications (PCI, SOC2)
 - [ ] GraphQL API support
 
----
-
 ## 📚 Additional Resources
 
 - [Node.js Documentation](https://nodejs.org/docs/)
 - [Express.js Guide](https://expressjs.com/)
 - [Best Practices for REST APIs](https://restfulapi.net/)
 - [Security Best Practices](https://owasp.org/www-project-secure-coding-practices/)
-
----
-
-## ✨ Acknowledgments
-
-Built with ❤️ for the billing and fintech community.
-
----
 
 **Last Updated:** May 2026  
 **Version:** 1.0.0
