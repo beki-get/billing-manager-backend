@@ -1,12 +1,12 @@
 import nodemailer from 'nodemailer';
 
 const transporter=nodemailer.createTransport({
-    host:"process.env.EMAIL_HOST",
-    port:'465',
+    host:process.env.MAILTRAP_HOST,
+    port:process.env.MAILTRAP_PORT,
     secure:'true',
     auth:{
-       user:process.env.EMAIL_USER,
-       pass:process.env.EMAIL_PASS
+       user:process.env.MAILTRAP_USER,
+       pass:process.env.MAILTRAP_PASS
     },
 });
 
