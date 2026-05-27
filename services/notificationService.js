@@ -71,4 +71,10 @@ const getNotifications =async(businessId)=>{
     return notifications;
 
 }
-export default { sendOverdueReminder, sendUpcomingReminders, getNotifications };
+
+const deleteNotifications= async (notificationId, businessId)=>{
+      const deleted= await Notification.deleteOne({ 
+        _id: notificationId, businessId });
+      return deleted;
+}
+export default { sendOverdueReminder, sendUpcomingReminders, getNotifications, deleteNotifications };
