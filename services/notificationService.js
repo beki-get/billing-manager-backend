@@ -1,3 +1,6 @@
+//this is the main service file or logic for sending overdue and upcoming reminders
+//it can also handle deleting and accessing(get) notifications from database
+
 import emailService from '../utils/emailService.js';
 import Notification from '../models/Notification.js';
 import Invoice from '../models/Invoice.js';
@@ -8,7 +11,7 @@ const sendOverdueReminder = async (invoice) => {
     if (!invoice.customerEmail) return;
 
     const mailoptions = {
-        from: process.env.EMAIL_USER,
+        from:'"Billing System" <system@my-app.com>',
         to: invoice.customerEmail,
         subject: `Payment Reminder for Invoice ${invoice.invoiceNumber}`,
         html: `
@@ -35,12 +38,12 @@ const sendOverdueReminder = async (invoice) => {
 const sendUpcomingReminders = async () => {
     const today = new Date();
     const invoices = await Invoice.find({ status: 'pending' });
-   
     for (const invoice of invoices) {
         const diffDays = Math.ceil((invoice.dueDate - today) / (1000 * 60 * 60 * 24));
         if (diffDays <= 3 && diffDays >= 0) {
             const subscription = await Subscription.findById(invoice.subscriptionId);
             const success = await emailService.sendMail({
+                from: '"Billing System" <system@my-app.com>',
                 to: invoice.customerEmail, 
                 subject: `Invoice Reminder: ${invoice.invoiceNumber}`,
                 text: `Your invoice ${invoice.invoiceNumber} of $${invoice.amount} is due on ${invoice.dueDate.toDateString()}`
@@ -60,6 +63,7 @@ const sendUpcomingReminders = async () => {
             });
         }
     }
+   
 };
 
 const getNotifications =async(businessId)=>{

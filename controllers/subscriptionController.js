@@ -33,7 +33,7 @@ const createSubscription = async (req, res) => {
         customerEmail: subscription.customerEmail
     });
 
-    res.status(201).json({ subscription, invoice });
+    res.status(201).json({ message:"Subscription and invoice for first billing created successfully", subscription, invoice });
 };
 
 // Get all subscriptions for a business

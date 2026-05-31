@@ -3,17 +3,17 @@ import nodemailer from 'nodemailer';
 const transporter=nodemailer.createTransport({
     host:process.env.MAILTRAP_HOST,
     port:process.env.MAILTRAP_PORT,
-    secure:'true',
+    secure:'false',
     auth:{
        user:process.env.MAILTRAP_USER,
        pass:process.env.MAILTRAP_PASS
     },
 });
 
-const sendMail= async ({to,subject,text,html})=>{
+const sendMail= async ({from,to,subject,text,html})=>{
     try{
         return await transporter.sendMail({
-            from:process.env.EMAIL_USER,
+            from,
             to,
             subject,
             text,
