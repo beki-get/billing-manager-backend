@@ -16,7 +16,9 @@ const sendOverdueReminder = async (invoice) => {
         subject: `Payment Reminder for Invoice ${invoice.invoiceNumber}`,
         html: `
             <p>Hi ${invoice.customerName || 'Customer'},</p>
-            <p>This is a reminder that your invoice <strong>${invoice.invoiceNumber}</strong> of amount <strong>$${invoice.amount}</strong> was due on <strong>${invoice.dueDate.toDateString()}</strong> and is now overdue.</p>
+            <p>This is a reminder that your invoice <strong>${invoice.invoiceNumber}</strong> 
+             of amount <strong>$${invoice.amount}</strong>
+             was due on <strong>${invoice.dueDate.toDateString()}</strong> and is now overdue.</p>
             <p>Please make the payment at your earliest convenience.</p>
             <p>Thank you!</p>
         `
@@ -41,6 +43,15 @@ const sendUpcomingReminders = async () => {
     for (const invoice of invoices) {
         const diffDays = Math.ceil((invoice.dueDate - today) / (1000 * 60 * 60 * 24));
         if (diffDays <= 3 && diffDays >= 0) {
+            const alreadyNotified = await Notification.findOne({
+                invoiceId: invoice._id,
+                type: 'reminder',
+                status: 'sent'
+            });
+            if (alreadyNotified) {
+                console.log(`⏩ Skipping Invoice ${invoice.invoiceNumber}: Reminder already sent.`);
+                continue; 
+            }
             const subscription = await Subscription.findById(invoice.subscriptionId);
             const success = await emailService.sendMail({
                 from: '"Billing System" <system@my-app.com>',
