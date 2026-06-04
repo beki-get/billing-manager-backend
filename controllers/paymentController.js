@@ -21,7 +21,7 @@ const payInvoiceStripe = async (req, res) => {
         const stripeClient = stripe(process.env.STRIPE_SECRET_KEY);
 
         const paymentIntent = await stripeClient.paymentIntents.create({
-            amount: Math.round(invoice.amount * 100), // in cents
+            amount: Math.round(invoice.amount * 100), 
             currency: invoice.currency,
             metadata: { invoiceId: invoice._id.toString() },
         });
