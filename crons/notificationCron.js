@@ -1,3 +1,6 @@
+//this is cron schedule that runs every 24 hr at midnight 
+//it main purpose is to check for pending invoices that its duedate already passed and also 
+//for invoices that are 3 days left
 import { schedule } from 'node-cron';
 import invoiceService from '../services/invoiceService.js';
 import notificationService from '../services/notificationService.js';
