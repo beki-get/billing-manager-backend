@@ -43,6 +43,7 @@ const sendUpcomingReminders = async () => {
     for (const invoice of invoices) {
         const diffDays = Math.ceil((invoice.dueDate - today) / (1000 * 60 * 60 * 24));
         if (diffDays <= 3 && diffDays >= 0) {
+            
             const alreadyNotified = await Notification.findOne({
                 invoiceId: invoice._id,
                 type: 'reminder',
