@@ -1,21 +1,47 @@
-import PaymentLog from '../models/PaymentLog.js';
+//user clicks pay now                                                                                                       
+//backend payment seession created
+//webhook recieved from payment gateway
+//data base updated
 
-const processPayment = async ({ invoiceId, subscriptionId, amount, currency, gateway }) => {
-    // Simulate payment success
-    const status = 'success';
-    const transactionId = `TXN-${Date.now()}`;
+const CHAPA_BASE_URL=process.env.CHAPA_BASE_URL
+const REQUEST_TIMEOUT_MS=Number(process.env.REQUEST_TIMEOUT_MS) || 10000
 
-    const log = await PaymentLog.create({
-        invoiceId,
-        subscriptionId,
-        amount,
-        currency,
-        status,
-        paymentGateway: gateway,
-        transactionId
-    });
+export const makeChapaRequest= async (endpoint,options={}) =>{
+    
+    const url='${CHAPA_BASE_URL}${endpoint}'
+    const controller=new AbortController()
+    const timeoutId=setTimeout(()=>controller.abort,REQUEST_TIMEOUT_MS)
+    
+    const config={
+        ...options,
+        signal:controller.signal,
+        headers:{
+            'Authorization':'Bearer ${process.env.CHAPA_SECRET_KEY}',
+            'Content-Type':'application/json'
+        }
+    }
 
-    return log;
-};
+    try{
+        const response= await fetch(url,config)
+        clearTimeout(timeoutId)
+        const data= await response.json()
 
-export default processPayment;
+        if(!response.ok){
+            const error= new Error(data.message ||'Chapa API error')
+            error.statusCode=response.status;
+            throw error;
+        }
+        return data  
+
+    } catch(error){
+       clearTimeout(timeoutId)
+       if(error.name==='AbortError'){
+           const timeoutError=new Error('Gateway request time out')
+           timeoutError.statusCode=504
+           throw timeoutError
+       }
+       throw error;
+    }
+
+
+}
