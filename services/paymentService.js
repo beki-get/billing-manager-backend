@@ -1,12 +1,10 @@
-//user clicks pay now                                                                                                       
-//backend payment seession created
-//webhook recieved from payment gateway
-//data base updated
+//this service will handle all interactions with the Chapa payment gateway, 
+//including initializing payment sessions and handling callbacks.
 
 const CHAPA_BASE_URL=process.env.CHAPA_BASE_URL
 const REQUEST_TIMEOUT_MS=Number(process.env.REQUEST_TIMEOUT_MS) || 10000
 
-export const makeChapaRequest= async (endpoint,options={}) =>{
+export const makeChapaRequest= async ( endpoint,options= {} ) =>{
     
     const url='${CHAPA_BASE_URL}${endpoint}'
     const controller=new AbortController()
@@ -42,6 +40,21 @@ export const makeChapaRequest= async (endpoint,options={}) =>{
        }
        throw error;
     }
+}
 
-
+export const initializePaymentSession= async (paymentData) =>{
+    return await makeChapaRequest('/transaction/initialize',{
+          method:POST,
+          body:JSON.stringify({
+             amount:paymentData.amount,
+             currency:paymentData.currency,
+             email:paymentData.email,
+             first_name:paymentData.firstName,
+             last_name:paymentData.lastName,
+             tx_ref:paymentData.txRef,
+             "customization[title]": "Invoice Payment",
+             "customization[description]": `Payment for Invoice ${paymentData.invoiceNumber}`,
+             callback_url:paymentData.callbackUrl,
+          })
+    })
 }
