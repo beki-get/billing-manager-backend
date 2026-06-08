@@ -7,6 +7,7 @@ export const validateSignature=(req,res,next)=>{
   try{
     const chapaSignature=req.headers['x-chapa-singnature']
     const secretKey=process.env.CHAPA_SECRET_KEY
+
     if(!chapaSignature){
        console.error('Webhook rejected: Missing x-chapa-signature header')
        return res.status(400).json({
@@ -36,6 +37,7 @@ export const validateSignature=(req,res,next)=>{
        Buffer.from(hash,'utf-8'),
        Buffer.from(chapaSignature,'utf-8')
     )
+
     if(!isSignatureValid){
          console.error('webhook rejected:')
          return res.status(401).json({
@@ -55,7 +57,4 @@ export const validateSignature=(req,res,next)=>{
            }
         })
    }
-
-
-
 }
