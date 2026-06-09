@@ -22,7 +22,7 @@ const createInvoice = async ({
         businessId,
         invoiceNumber,
         amount,
-        currency: 'USD',
+        currency: 'ETB',
         dueDate,
         customerName,
         customerEmail

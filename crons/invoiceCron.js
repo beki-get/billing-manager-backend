@@ -22,10 +22,10 @@ const generateInvoice = () => {
                     businessId: sub.businessId,
                     invoiceNumber,
                     amount: plan.price,
-                    currency: 'USD',
+                    currency: 'ETB',
                     dueDate: addDays(today, plan.duration),
                     clientName: sub.clientName,   
-                    clientEmail: sub.clientEmail
+                    customerEmail: sub.customerEmail
                 });
               await logAction('INVOICE_GENERATED', 'Invoice', newInvoice._id, 
                 { amount: newInvoice.amount });

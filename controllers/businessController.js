@@ -6,7 +6,7 @@ const createBusiness = async (req, res) => {
     const { name, currency } = req.body;
     const business = await Business.create({
         name,
-        currency: currency || 'USD',
+        currency: currency || 'ETB',
         owner: req.user._id
     });
 

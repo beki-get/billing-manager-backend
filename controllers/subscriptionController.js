@@ -27,7 +27,7 @@ const createSubscription = async (req, res) => {
         businessId,
         invoiceNumber: generateInvoiceNumber(),
         amount: plan.price,
-        currency: 'USD',
+        currency: 'ETB',
         dueDate: nextBillingDate,
         customerName: subscription.customerName,
         customerEmail: subscription.customerEmail

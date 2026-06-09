@@ -4,7 +4,7 @@ const PaymentLogSchema = new Schema({
     invoiceId: { type: Schema.Types.ObjectId, ref: 'Invoice', required: true },
     subscriptionId: { type: Schema.Types.ObjectId, ref: 'Subscription', required: true },
     amount: { type: Number, required: true },
-    currency: { type: String, default: 'USD' },
+    currency: { type: String, default: 'ETB' },
     status: { type: String, enum: ['success', 'failure', 'pending'], default: 'pending' },
     paymentGateway: { type: String, enum: ['stripe', 'paypal'], required: true },
     transactionId: { type: String },

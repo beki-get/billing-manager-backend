@@ -7,7 +7,7 @@ const InvoiceSchema = new Schema({
     businessId: { type: Schema.Types.ObjectId, ref: 'Business', required: true },
     invoiceNumber: { type: String, required: true, unique: true },
     amount: { type: Number, required: true },
-    currency: { type: String, default: 'USD' },
+    currency: { type: String, default: 'ETB' },
     dueDate: { type: Date, required: true },
     status: { type: String, enum: ['pending', 'paid', 'failed', 'overdue'], default: 'pending' }
 }, { timestamps: true });
