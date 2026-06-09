@@ -5,7 +5,7 @@ const initializeInvoicePayment = async (req, res) => {
     const startTime = Date.now();
     const { invoiceId } = req.params
     try {
-        if (invoiceId.match(/^[0-9a-fA-F]{24}$/)) {
+        if (!invoiceId.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).json({
                 error: {
                     code: 'INVALID_INVOICE_ID',
@@ -36,12 +36,12 @@ const initializeInvoicePayment = async (req, res) => {
         const chapaPaymentData = {
             amount: invoice.amount,
             currency: invoice.currency,
-            email: invoice.clientEmail,
+            email: invoice.customerEmail,
             firstName: invoice.customerName ? invoice.customerName.split(' ')[0] : 'Client',
             lastName: invoice.customerName ? invoice.customerName.split(' ').slice(1).join(' ') || 'Customer' : 'User',
-            txRef: invoice._id.toString(),
+            txRef: `tx-${invoice._id.toString()}-${Date.now()}`,
             invoiceNumber: invoice.invoiceNumber,
-            callbackUrl: `${process.env.CHAPA_BASE_URL}/api/payments/success`
+            callbackUrl: `${process.env.APP_BASE_URL}/api/payments/success`
         }
 
         const chapaResponse = await paymentService.initializePaymentSession(chapaPaymentData);
@@ -79,6 +79,7 @@ const handleChapaWebhook = async (req, res) => {
             console.info(`[INFO] Webhook received for already paid Invoice ID ${reference}. No action taken.`)
             return res.status(200).json({ message: 'Event acknowledged: Invoice already marked as paid.' })
         }
+       
 
         invoice.status = 'paid';
         await invoice.save();

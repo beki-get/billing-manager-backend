@@ -5,7 +5,8 @@ import crypto from 'crypto'
 
 export const validateSignature=(req,res,next)=>{
   try{
-    const chapaSignature=req.headers['x-chapa-singnature']
+    console.log("[WEBHOOK TRACE] A request just hit the webhook route from Chapa!", req.body);
+    const chapaSignature=req.headers['x-chapa-signature']
     const secretKey=process.env.CHAPA_SECRET_KEY
 
     if(!chapaSignature){
