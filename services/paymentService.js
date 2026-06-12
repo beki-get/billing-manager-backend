@@ -54,9 +54,11 @@ const makeChapaRequest= async ( endpoint,options= {} ) =>{
              first_name:paymentData.firstName,
              last_name:paymentData.lastName,
              tx_ref:paymentData.txRef,
+             callback_url:paymentData.callbackUrl,
+             return_url: `${process.env.APP_BASE_URL}/api/payments/success`,
              "customization[title]": "Invoice Payment",
              "customization[description]": `Payment for Invoice ${paymentData.invoiceNumber}`,
-             callback_url:paymentData.callbackUrl,
+             
           })
     })
 }
