@@ -49,7 +49,7 @@ cd billing-manager-backend
 npm install
 
 # Set up environment variables
-cp example .env
+cp .env
 # Edit .env with your configuration
 
 # Start the server
@@ -72,13 +72,13 @@ npm run dev
 
 ```
 billing-manager-backend/
-├── src/
-│   ├── controllers/        # Request handlers
-│   ├── models/            # Data models
-│   ├── routes/            # API routes
-│   ├── middlewares/        # Custom middleware
-│   ├── services/          # Business logic
-│   └── utils/             # Helper functions
+├
+├── controllers/        # Request handlers
+├── models/            # Data models
+├── routes/            # API routes
+├── middlewares/        # Custom middleware
+├── services/          # Business logic
+└── utils/             # Helper functions
 ├── tests/                 # Test files
 ├── validators/            # Input validation files
 ├── .env                   # Environment variables template
@@ -103,7 +103,7 @@ DB_PORT=27017
 JWT_SECRET=your_jwt_secret_key
 API_KEY=your_api_key
 
-# Payment Gateway (if applicable)
+# Payment Gateway 
 PAYMENT_GATEWAY_KEY=your_payment_gateway_key
 PAYMENT_GATEWAY_SECRET=your_payment_gateway_secret
 
