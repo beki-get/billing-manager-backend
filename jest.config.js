@@ -4,4 +4,5 @@ export default {
     '^.+\\.js$': 'babel-jest',
   },
   testMatch: ['**/tests/**/*.test.js'],
+  moduleFileExtensions: ['js', 'mjs', 'cjs'],
 };
