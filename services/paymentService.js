@@ -2,7 +2,6 @@
 //including initializing payment sessions, handling callbacks and aborting requests that take too long.
 import paymentController from "../controllers/paymentController.js"
 
-
 const CHAPA_BASE_URL=process.env.CHAPA_BASE_URL
 const REQUEST_TIMEOUT_MS=Number(process.env.REQUEST_TIMEOUT_MS) || 10000
 
