@@ -7,7 +7,7 @@ import businessRoutes from './routes/businessRoutes.js';
 import planRoutes from './routes/planRoutes.js';
 import subscriptionRoutes from './routes/subscriptionRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js'; 
-import webhookRoutes from './routes/webhookRoutes.js'; 
+
 
 import reportRoutes from './routes/reportRoutes.js';
 import auditRoutes from './routes/auditRoutes.js';
@@ -22,7 +22,6 @@ import notificationService from './services/notificationService.js';
 
 const app = express();
 app.use(cors());
-app.use('/webhooks', webhookRoutes);
 
 app.use(express.json());
 
