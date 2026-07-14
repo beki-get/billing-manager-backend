@@ -1,26 +1,28 @@
-import Business from '../models/Business.js';
-import User from '../models/User.js';
+import businessService from '../services/businessService.js';
 
-// Create a new business
 const createBusiness = async (req, res) => {
+  try {
     const { name, currency } = req.body;
-    const business = await Business.create({
-        name,
-        currency: currency || 'ETB',
-        owner: req.user._id
+    const business = await businessService.createBusiness({
+      name,
+      currency,
+      ownerId: req.user._id,
+      user: req.user,
     });
 
-    // Add business to user
-    req.user.businesses.push(business._id);
-    await req.user.save();
-
     res.status(201).json(business);
+  } catch (error) {
+    res.status(500).json({ message: error.message || 'Failed to create business' });
+  }
 };
 
-// Get all businesses of logged-in user
 const getUserBusinesses = async (req, res) => {
-    const businesses = await Business.find({ owner: req.user._id });
+  try {
+    const businesses = await businessService.getBusinessesByOwner(req.user._id);
     res.json(businesses);
+  } catch (error) {
+    res.status(500).json({ message: error.message || 'Failed to fetch businesses' });
+  }
 };
 
 export default { createBusiness, getUserBusinesses };
